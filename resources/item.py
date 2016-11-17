@@ -2,6 +2,7 @@
 from flask_restful import Resource,reqparse
 import sqlite3
 from models.item import ItemModel
+from flask_jwt import jwt_required
 
 
 class Item(Resource):
@@ -9,6 +10,7 @@ class Item(Resource):
     parser.add_argument('price', type= float, required= True, help= "This field is must!")
     parser.add_argument('store_id', type= int, required= True, help= "This field is must!")
 
+    @jwt_required()
     def get(self, name):
         item = ItemModel.get_by_name(name)
         if item:
